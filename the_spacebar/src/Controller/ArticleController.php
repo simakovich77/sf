@@ -29,6 +29,7 @@ class ArticleController extends AbstractController
       'Second generation: 1947 – 1962',
       'Third generation: 1963 - present',
     ];
+    dump($slug, $this);
     return $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
       'comments' => $comments,

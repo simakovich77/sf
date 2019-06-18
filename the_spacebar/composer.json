@@ -59,5 +59,8 @@
             "allow-contrib": false,
             "require": "4.3.*"
         }
+    },
+    "require-dev": {
+        "symfony/profiler-pack": "^1.0"
     }
 }
