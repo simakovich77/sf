@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Read {{ title }}{% endblock %}
+{% block body %}
+{# yay! #}
+<h1>{{ title }}</h1>
+
+<div>
+<p>
+    The computer as we know it today had its beginning with a 19th century English mathematics professor name Charles m
+    Babbage.<br>  designed the Analytical Engine and it was this design that the basic framework of the computers of
+    today are based on.
+
+    Generally speaking, computers can be classified into three generations. Each generation lasted for a certain
+    period of<br> time,and each gave us either a new and improved computer or an improvement to the existing computer.
+</p>
+
+   <p>First generation: 1937 – 1946 - </p>
+<p>generation of computers over 100 computer programming languages were developed, computers had memory andse also were printers for output. </p>
+
+</div>
+
+<h2>Comments ({{ comments|length }})</h2>
+<ul>
+    {% for comment in comments %}
+    <li>{{ comment }}</li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
