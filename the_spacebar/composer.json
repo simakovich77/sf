@@ -63,7 +63,6 @@
     "require-dev": {
         "easycorp/easy-log-handler": "^1.0.7",
         "symfony/debug-bundle": "*",
-        "symfony/debug-pack": "^1.0",
         "symfony/monolog-bundle": "^3.0",
         "symfony/profiler-pack": "*",
         "symfony/var-dumper": "*"
