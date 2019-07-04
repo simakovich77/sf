@@ -6,10 +6,10 @@
  * Time: 5:37 PM
  */
 namespace App\Controller;
+use App\Service\MarkdownHelper;
 use Michelf\MarkdownInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Cache\Adapter\AdapterInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -26,7 +26,7 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}", name="article_show")
    */
-  public function show($slug, MarkdownInterface $markdown, AdapterInterface $cache)
+  public function show($slug, MarkdownHelper $markdownHelper)
   {
     $comments = [
       'First generation: 1937 – 1946',
@@ -51,16 +51,14 @@ rooter, and 20 adders employing decimal "ring counters," which served as
 adders and also as quick-access (0.0002 seconds) read-write register storage.
 EOF;
 
-    $item = $cache->getItem('markdown_'.md5($articleContent));
+    //  dump($cache); die;
 
-    if(!$item->isHit()){
-        $item->set($markdown->transform($articleContent));
-        $cache->save($item);
-    }
 
-    $articleContent = $item->get();
+    //dump($markdown); die;
 
     //$articleContent = $markdown->transform($articleContent);
+
+    $articleContent = $markdownHelper->parse($articleContent);
 
     return $this->render('article/show.html.twig', [
       'title' => ucwords(str_replace('-', ' ', $slug)),
