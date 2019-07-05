@@ -1,6 +1,4 @@
 framework:
-    cache:
-        app: cache.adapter.apcu
     secret: '%env(APP_SECRET)%'
     #default_locale: en
     #csrf_protection: true
@@ -17,3 +15,5 @@ framework:
     #fragments: true
     php_errors:
         log: true
+    cache:
+        app: '%cache_adapter%'

@@ -16,18 +16,25 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ArticleController extends AbstractController
 {
-  /**
+  public function __construct(bool $isDebug)
+  {
+    //dump($isDebug);die();
+  }
+
+    /**
    * @Route("/", name="app_homepage")
    */
-  public function homepage(){
+  public function homepage()
+  {
     return $this->render('article/homepage.html.twig');
   }
 
   /**
    * @Route("/news/{slug}", name="article_show")
    */
-  public function show($slug, MarkdownHelper $markdownHelper)
+  public function show($slug, MarkdownHelper $markdownHelper, bool $isDebug)
   {
+    //dump($isDebug);die();
     $comments = [
       'First generation: 1937 – 1946',
       'Second generation: 1947 – 1962',
