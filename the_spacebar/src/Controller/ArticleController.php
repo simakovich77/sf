@@ -8,6 +8,7 @@
 namespace App\Controller;
 use App\Service\MarkdownHelper;
 use Michelf\MarkdownInterface;
+use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +20,7 @@ class ArticleController extends AbstractController
   public function __construct(bool $isDebug)
   {
     //dump($isDebug);die();
+      $this->isDebug = $isDebug;
   }
 
     /**
@@ -32,8 +34,17 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}", name="article_show")
    */
-  public function show($slug, MarkdownHelper $markdownHelper, bool $isDebug)
+  public function show($slug, MarkdownHelper $markdownHelper, bool $isDebug, Client $slack)
   {
+      if($slug == 'khaan')
+      {
+          $message = $slack->createMessage()
+              ->from('Khan')
+              ->withIcon(':ghost:')
+              ->setText('Hello astronauts')
+          ;
+          $slack->sendMessage($message);
+      }
     //dump($isDebug);die();
     $comments = [
       'First generation: 1937 – 1946',
