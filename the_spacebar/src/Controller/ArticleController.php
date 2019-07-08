@@ -7,6 +7,7 @@
  */
 namespace App\Controller;
 use App\Service\MarkdownHelper;
+use App\Service\SlackClient;
 use Michelf\MarkdownInterface;
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
@@ -34,16 +35,11 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}", name="article_show")
    */
-  public function show($slug, MarkdownHelper $markdownHelper, bool $isDebug, Client $slack)
+  public function show($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
   {
       if($slug == 'khaan')
       {
-          $message = $slack->createMessage()
-              ->from('Khan')
-              ->withIcon(':ghost:')
-              ->setText('Hello astronauts')
-          ;
-          $slack->sendMessage($message);
+          $slack->sendMessage('Khan', 'Ah, Kirk, my old friend...');
       }
     //dump($isDebug);die();
     $comments = [
