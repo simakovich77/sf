@@ -4,15 +4,17 @@ namespace App\Service;
 
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
+use App\Helper\LoggerTrait;
 
 class SlackClient
 {
+    use LoggerTrait;
     /**
      * @var Client
      */
     private $slack;
 
-    private $logger;
+
 
     public function __construct(Client $slack)
     {
@@ -20,20 +22,11 @@ class SlackClient
         $this->slack = $slack;
     }
 
-    /**
-     * @required
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
     public function sendMessage(string $from, string $message)
     {
-        if($this->logger)
-        {
-            $this->logger->info('Beaming a message to Slack');
-        }
+        $this->logInfo('Beaming a message to Slack', [
+           'message' => $message
+        ]);
         $slackMessage = $this->slack->createMessage()
               ->from($from)
               ->withIcon(':ghost:')
