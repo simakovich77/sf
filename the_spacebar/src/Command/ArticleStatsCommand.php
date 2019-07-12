@@ -34,8 +34,15 @@ class ArticleStatsCommand extends Command
 
         switch ($input->getOption('format')){
             case 'text':
+                $rows = [];
+                foreach ($data as $key => $val) {
+                    $rows[] = [$key, $val];
+                }
+                $io->table(['Key', 'Value'], $rows);
+
                 break;
             case 'json':
+                $io->write(\GuzzleHttp\json_encode($data));
                 break;
             default:
                 throw new \Exception('What kind of crazy format is that?!');
