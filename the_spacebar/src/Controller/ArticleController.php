@@ -8,6 +8,7 @@
 namespace App\Controller;
 use App\Service\MarkdownHelper;
 use App\Service\SlackClient;
+use Doctrine\ORM\EntityManagerInterface;
 use Michelf\MarkdownInterface;
 use Nexy\Slack\Client;
 use Psr\Log\LoggerInterface;
@@ -15,6 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use App\Entity\Article;
 
 class ArticleController extends AbstractController
 {
@@ -35,12 +37,21 @@ class ArticleController extends AbstractController
   /**
    * @Route("/news/{slug}", name="article_show")
    */
-  public function show($slug, MarkdownHelper $markdownHelper, SlackClient $slack)
+  public function show($slug, SlackClient $slack, EntityManagerInterface $em)
   {
       if($slug == 'khaan')
       {
           $slack->sendMessage('Khan', 'Ah, Kirk, my old friend...');
       }
+
+      $repository = $em->getRepository(Article::class);
+      $article = $repository->findOneBy(['slug' => $slug]);
+
+      if(!$article) {
+          throw $this->createNotFoundException(sprintf('No article for slug "%s"', $slug));
+      }
+
+      //dump($article); die();
     //dump($isDebug);die();
     $comments = [
       'First generation: 1937 – 1946',
@@ -72,12 +83,10 @@ EOF;
 
     //$articleContent = $markdown->transform($articleContent);
 
-    $articleContent = $markdownHelper->parse($articleContent);
+    //$articleContent = $markdownHelper->parse($articleContent);
 
     return $this->render('article/show.html.twig', [
-      'title' => ucwords(str_replace('-', ' ', $slug)),
-      'slug' => $slug,
-      'articleContent' => $articleContent,
+      'article' => $article,
       'comments' => $comments,
     ]);
   }

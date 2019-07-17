@@ -36,11 +36,6 @@ class Article
      */
     private $publishedAT;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $no;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -94,15 +89,4 @@ class Article
         return $this;
     }
 
-    public function getNo(): ?string
-    {
-        return $this->no;
-    }
-
-    public function setNo(string $no): self
-    {
-        $this->no = $no;
-
-        return $this;
-    }
 }
