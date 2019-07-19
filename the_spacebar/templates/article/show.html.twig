@@ -23,7 +23,7 @@
                     <div class="row">
                         <div class="col-sm-12">
                             <div class="article-text">
-                                {{ article.content | markdown }}
+                                {{ article.content | cache_markdown }}
                             </div>
                         </div>
                     </div>
